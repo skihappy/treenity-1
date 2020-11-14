@@ -34,7 +34,6 @@ export function meta(name: string, definition: { [field: string]: any }) {
     _t: name,
   };
 
-  const meta=types.compose(name, Meta, types
-  })
+  const meta=types.compose(name, Meta, types.model(fields))
   return addType(meta);
 }
