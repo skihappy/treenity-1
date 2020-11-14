@@ -25,6 +25,18 @@ Each node is a generic container for some entety. That node entety often will ha
   each use case. If the order of child creation is important, an childOrder array can be added as a meta prop, containing
   children names. All im saying, lets have it both ways to facilitate nice syntax for any use case. 
   
+  We can do even better then that, uniting array and dict type of access to children. We can have a unified syntax of access, 
+  thru stringy paths. e.g. consider 
+  ```
+  const Path=class {
+   constructor(path){...}
+   resolve(){...}
+  }   
+  
+  const myPath=new Path('../node1/1/2')
+  console.log(myPath.resolve()) /*node1.parent.childArr[1].childArr[2] */
+  ```
+  
   Whats at stake is the developer experience. Its a huge mental burden to fit abstractions into an unflexible syntax.
   
   
