@@ -47,6 +47,7 @@ export const Node = addType(
     //   self._addMeta(getSnapshot(meta));
     // }),
     $addMeta(meta) {
+        meta.update((self)=>)
       const snapshot = isStateTreeNode(meta) ? getSnapshot(meta) : meta;
       return self.addMetaSnapshot(snapshot);
     },
