@@ -1,10 +1,11 @@
 #h1 Basic concept
 
-The logic blocks get built on the server,  on client request, from a serializable blockSpec. 
-Basically, you drop a logic meta or node and feathers runs a type specific webhook/endpoint on server creating the 
-actual executer func for the block, sticks it into db, client gets synched and evals the executer in a sandbox.  
-Then, the executer runs on the client. Its just the building for custom blocks that happens on the server dynamically. 
-Itll save a lot of footprint over the wire.
+There are base blocks and composite blocks, composed of base blocks and other composits. Each block has inputs and outputs.
+The whole thing runs as an observable mobx state tree. Each output has a func associate with it,  either directly in the 
+base blocks or somewhere inside the composite block. Mobx fires these funcs wherever inputs mutate. 
+
+Theres no need to serialize these base block funcs if enough are provided in hard code. However, it is possible in the 
+future. Even without that, a large number of custom logic can be created on the client. 
 
 Blocks will rerender themselves reactively on state or instance rop changes, same as react. What happens on change of 
 input pin values depends on block execution mode.  Each block has a ticker pin. If nothing hooked up toit,  its reactive.
@@ -19,6 +20,25 @@ The Block func abstracts the dissimilar syntax for creating elementary and compo
 Composite blocks are defined when invoking Block with block spec. 
 
 Block is a curried func Block(domainPath: string,blockSpec:object, instanceProps:object)
+
+Modes of execution.
+    continuous mode.
+    The output simply reflects the state of inputs at all times
+    
+    ticked mode.
+    outputs recalculated on a timed tick. Each block has a timer pin. If noting connected, the block will run in 
+    continuous mode. Otherwise, outputs are updated on the rising edge of tick signal.
+    
+    process mode.
+    Processes are usually asynchronous and can go thru several steps, waiting for something to happen at each step.
+    They are tickhey are one shot thing. Each time a process is fired, a new instance is created by invoking its Block
+    func with new set of props. A process is represented by a process node that,  initially, contains only processAPI meta.
+    As each instance is created, it is placed inside the process node and stays there untill archived, even passed complettion.
+    So, processes are an extension of logic block api and will be dealt with later.
+    
+    how async blocks are handled
+    They simply return a promise. So, the output
+    In continious mode, it simply makes little sense 
 
 
 
